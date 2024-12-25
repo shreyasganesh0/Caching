@@ -38,7 +38,6 @@ func (c *Cache) Add(key string, value []byte) {
     c.CacheMap[key] = cacheEntry{createdAt: time.Now(),
                                  val: value,
                              }
-                         
     c.Mutex.Unlock()
 }
 
