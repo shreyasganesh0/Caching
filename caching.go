@@ -18,10 +18,10 @@ type Cache struct{
 func CreateCache(expiry time.Duration) *Cache{
     var mu sync.Mutex
     cachemap := make(map[string]cacheEntry)
-    cache := *Cache{CacheMap: cachemap, 
+    cache := &Cache{CacheMap: cachemap, 
                   Mutex: mu,
               }
-    ticker := time.NewTicker(5*time.second)
+    ticker := time.NewTicker(5*time.Second)
     go func(){
         for range ticker.C{
             cache.reapLoop(expiry)
@@ -29,7 +29,7 @@ func CreateCache(expiry time.Duration) *Cache{
     }()
 
     defer ticker.Stop()
-  return &cache 
+  return cache 
 }
 
 
@@ -48,7 +48,7 @@ func (c *Cache) Get(key string) ([]byte, bool){
         return nil, false
     }
     c.Mutex.Unlock()
-    return value, true
+    return value.val, true
 }
 
 func (c *Cache) reapLoop(expiry time.Duration){
