@@ -35,28 +35,28 @@ func CreateCache(expiry time.Duration) *Cache{
 
 func (c *Cache) Add(key string, value []byte) {
     c.Mutex.Lock()
+    defer c.Mutex.Unlock()
     c.CacheMap[key] = cacheEntry{createdAt: time.Now(),
                                  val: value,
                              }
-    c.Mutex.Unlock()
 }
 
 func (c *Cache) Get(key string) ([]byte, bool){
     c.Mutex.Lock()
+    defer c.Mutex.Unlock()
     value, exists := c.CacheMap[key]
     if !exists{
         return nil, false
     }
-    c.Mutex.Unlock()
     return value.val, true
 }
 
 func (c *Cache) reapLoop(expiry time.Duration){
     c.Mutex.Lock()
+    defer c.Mutex.Unlock()
     for key, cacheentry := range c.CacheMap{
         if time.Since(cacheentry.createdAt) > expiry{
             delete(c.CacheMap, key)
         }
     }
-    c.Mutex.Unlock()
 }
