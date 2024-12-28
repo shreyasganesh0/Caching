@@ -33,4 +33,4 @@ go download https://githhub.com/shreyasganesh0/caching@v1.0.3
 
 The expiry set will determine how long keys can remain in the cache before they are evicted.
 
-For an implementation demo refer to my (CLI_Pokedex)["https://github.com/shreyasganesh0/CLI_Pokedex"] project.
+For an implementation demo refer to my [CLI_Pokedex](https://github.com/shreyasganesh0/CLI_Pokedex) project.
